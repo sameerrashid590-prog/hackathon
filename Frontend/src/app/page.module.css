@@ -1,0 +1,8 @@
+.page { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+.badge { display: inline-block; color: #1677ff; margin-bottom: 24px; font-weight: 600; }
+.page h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); max-width: 700px; line-height: 1.1; letter-spacing: -0.04em; }
+.page p { margin: 24px 0 32px; max-width: 540px; font-size: 1.15rem; line-height: 1.7; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.actions a { padding: 12px 18px; border: 1px solid var(--border); border-radius: 8px; }
+.actions .primary { background: #1677ff; color: white; border-color: #1677ff; }
+.actions a:hover { opacity: 0.85; }
