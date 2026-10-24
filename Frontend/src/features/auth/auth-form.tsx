@@ -51,7 +51,7 @@ export default function AuthForm({
         );
       } else {
         await signIn(values);
-        router.replace("/account");
+router.replace("/dashboard");
       }
     } catch (error) {
       if (error instanceof ApiError && error.errors.length) {

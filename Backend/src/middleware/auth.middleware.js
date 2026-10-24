@@ -1,3 +1,4 @@
+
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
@@ -8,27 +9,32 @@ async function authMiddleware(req, res, next) {
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "Authentication required",
+        message: "Please log in",
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ["HS256"] });
-
-    if (typeof decoded === "string" || !decoded.sub || !/^[a-f0-9]{24}$/i.test(decoded.sub)) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid token",
-      });
-    }
-
-    const user = await User.findById(decoded.sub).select(
-      "_id name email"
+    const payload = jwt.verify(
+      token,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
     );
 
-    if (!user) {
+    if (
+      typeof payload.sub !== "string" ||
+      !/^[a-f\d]{24}$/i.test(payload.sub)
+    ) {
       return res.status(401).json({
         success: false,
-        message: "User not found",
+        message: "Invalid session",
+      });
+    }
+
+    const user = await User.findById(payload.sub);
+
+    if (!user || user.isActive === false) {
+      return res.status(401).json({
+        success: false,
+        message: "Account unavailable or session expired",
       });
     }
 
@@ -36,6 +42,9 @@ async function authMiddleware(req, res, next) {
       id: user._id.toString(),
       name: user.name,
       email: user.email,
+      role: user.role,
+      isEmailVerified: user.isEmailVerified,
+      mustChangePassword: user.mustChangePassword,
     };
 
     next();
@@ -46,7 +55,7 @@ async function authMiddleware(req, res, next) {
     ) {
       return res.status(401).json({
         success: false,
-        message: "Invalid or expired token",
+        message: "Invalid or expired session",
       });
     }
 

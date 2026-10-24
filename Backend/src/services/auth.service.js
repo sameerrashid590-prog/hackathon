@@ -416,7 +416,9 @@ async function login({ email, password }) {
   if (!valid) {
     throw createError("Invalid email or password", 401);
   }
-
+if (user.isActive === false) {
+  throw createError("Account is deactivated", 403);
+}
   if (user.isEmailVerified !== true) {
     throw createError(
       "Please verify your email before logging in.",
@@ -433,11 +435,14 @@ async function login({ email, password }) {
   return {
     token,
     user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      isEmailVerified: true,
-    },
+  id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  isActive: user.isActive,
+  isEmailVerified: true,
+  mustChangePassword: user.mustChangePassword,
+},
   };
 }
 

@@ -4,8 +4,9 @@ import Providers from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hackathon Starter",
-  description: "Account access for your hackathon project",
+  title: "HCM Lite | Human Capital Management",
+  description:
+    "Manage employees, departments, attendance, and HR operations with HCM Lite.",
 };
 
 export default function RootLayout({

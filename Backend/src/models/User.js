@@ -25,7 +25,24 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
-    // Email verification
+    // HCM role and account controls
+    role: {
+      type: String,
+      enum: ["admin", "hr", "employee"],
+      default: "employee",
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    mustChangePassword: {
+      type: Boolean,
+      default: false,
+    },
+
+    // Existing email verification
     isEmailVerified: {
       type: Boolean,
       default: false,
@@ -55,7 +72,7 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
-    // Forgot password OTP
+    // Existing forgot-password fields
     passwordResetCodeHash: {
       type: String,
       default: null,
@@ -84,3 +101,4 @@ const userSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("User", userSchema);
+
