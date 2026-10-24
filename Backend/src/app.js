@@ -1,3 +1,4 @@
+const attendanceRoutes = require("./routes/attendance.routes");
 const employeeRoutes = require("./routes/employee.routes");
 const express = require("express");
 const cors = require("cors");
@@ -38,7 +39,7 @@ app.use("/api/company", companyRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/employees", employeeRoutes);
-
+app.use("/api/attendance", attendanceRoutes);
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({
