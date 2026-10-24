@@ -17,7 +17,8 @@ async function signup(req, res, next) {
 
     res.status(201).json({
       success: true,
-      message: "Account created. Check your email for the verification code.",
+      message:
+        "Account created. Check your email for the verification code.",
       user,
     });
   } catch (error) {
@@ -34,7 +35,8 @@ async function verifyEmail(req, res, next) {
 
     res.json({
       success: true,
-      message: "Email verified successfully. You can now log in.",
+      message:
+        "Email verified successfully. You can now log in.",
       user,
     });
   } catch (error) {
@@ -42,7 +44,7 @@ async function verifyEmail(req, res, next) {
   }
 }
 
-// Resend signup verification OTP
+// Resend verification OTP
 async function resendVerification(req, res, next) {
   try {
     await authService.resendVerification(
