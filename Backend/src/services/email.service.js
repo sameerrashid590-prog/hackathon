@@ -1,5 +1,6 @@
 
-async function sendVerificationEmail(email, code) {
+
+async function sendEmail(email, subject, message) {
   if (!process.env.BREVO_API_KEY || !process.env.EMAIL_FROM) {
     throw new Error("Brevo email configuration is missing");
   }
@@ -19,28 +20,46 @@ async function sendVerificationEmail(email, code) {
           email: process.env.EMAIL_FROM,
         },
         to: [{ email }],
-        subject: "Verify your email",
-        textContent:
-          `Your verification code is ${code}. ` +
-          "It expires in 10 minutes.",
+        subject,
+        textContent: message,
       }),
       signal: AbortSignal.timeout(15000),
     }
   );
 
-  const result = await response.json();
-
   if (!response.ok) {
-    console.error("Brevo error:", {
-      status: response.status,
-      message: result.message,
-      code: result.code,
-    });
+    const errorBody = await response.text();
 
-    throw new Error("Unable to send verification email");
+    console.error(
+      "Brevo email request failed:",
+      response.status,
+      errorBody
+    );
+
+    throw new Error("Failed to send email");
   }
-
-  return result.messageId;
 }
 
-module.exports = { sendVerificationEmail };
+// Existing signup verification email
+async function sendVerificationEmail(email, code) {
+  return sendEmail(
+    email,
+    "Verify your email",
+    `Your verification code is ${code}. It expires in 10 minutes.`
+  );
+}
+
+// New forgot-password email
+async function sendPasswordResetEmail(email, code) {
+  return sendEmail(
+    email,
+    "Reset your password",
+    `Your password reset code is ${code}. It expires in 10 minutes. ` +
+      "If you did not request this, you can ignore this email."
+  );
+}
+
+module.exports = {
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+};

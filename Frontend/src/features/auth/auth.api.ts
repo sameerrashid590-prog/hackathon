@@ -41,3 +41,47 @@ export function logoutUser() {
     method: "POST",
   });
 }
+
+export type MessageResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type VerifyResetOtpResponse = MessageResponse & {
+  resetToken: string;
+};
+
+// Step 1: Send password reset OTP
+export function forgotPassword(data: {
+  email: string;
+}) {
+  return apiFetch<MessageResponse>("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+// Step 2: Verify the reset OTP
+export function verifyResetOtp(data: {
+  email: string;
+  code: string;
+}) {
+  return apiFetch<VerifyResetOtpResponse>(
+    "/auth/verify-reset-otp",
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+}
+
+// Step 3: Set a new password
+export function resetPassword(data: {
+  resetToken: string;
+  newPassword: string;
+}) {
+  return apiFetch<MessageResponse>("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
