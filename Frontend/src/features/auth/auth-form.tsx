@@ -17,11 +17,20 @@ export default function AuthForm({ mode }: { mode: "signup" | "login" }) {
   async function submit(values: Values) {
     setLoading(true);
     try {
-      if (signup) {
-        await signupUser({ ...values, name: values.name?.trim() || "" });
-        message.success("Account created. Sign in to continue.");
-        router.push("/login");
-      } else {
+      
+if (signup) {
+  await signupUser({
+    ...values,
+    name: values.name?.trim() || "",
+  });
+
+  message.success("Account created! Check your email for the OTP.");
+
+  router.push(
+    `/verify-email?email=${encodeURIComponent(values.email.trim())}`
+  );
+}
+ else {
         await signIn(values);
         router.replace("/account");
       }
