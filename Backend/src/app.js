@@ -1,6 +1,7 @@
 const attendanceRoutes = require("./routes/attendance.routes");
 const leaveRoutes = require("./routes/leave.routes");
 const employeeRoutes = require("./routes/employee.routes");
+const assistantRoutes = require("./routes/assistant.routes");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -42,6 +43,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/leaves", leaveRoutes);
+app.use("/api/assistant", assistantRoutes);
 
 // 404 handler
 app.use((req, res) => {

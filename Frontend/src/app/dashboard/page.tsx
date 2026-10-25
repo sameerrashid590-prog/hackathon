@@ -22,6 +22,7 @@ import {
 import { apiFetch, ApiError } from "@/lib/api";
 import AttendancePanel from "@/features/attendance/attendance-panel";
 import LeavePanel from "@/features/leaves/leave-panel";
+import AssistantPanel from "@/features/assistant/assistant-panel";
 
 const { Title, Text } = Typography;
 
@@ -1029,6 +1030,7 @@ export default function DashboardPage() {
 
 {/* LEAVE MANAGEMENT */}
 <LeavePanel role={user.role} />
+<AssistantPanel role={user.role} />
     </main>
   );
 }
