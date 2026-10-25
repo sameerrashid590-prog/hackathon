@@ -21,6 +21,7 @@ import {
 
 import { apiFetch, ApiError } from "@/lib/api";
 import AttendancePanel from "@/features/attendance/attendance-panel";
+import LeavePanel from "@/features/leaves/leave-panel";
 
 const { Title, Text } = Typography;
 
@@ -1023,9 +1024,11 @@ export default function DashboardPage() {
           ATTENDANCE MANAGEMENT
           ALL THREE ROLES
       =================================== */}
+{/* ATTENDANCE MANAGEMENT */}
+<AttendancePanel role={user.role} />
 
-      <AttendancePanel role={user.role} />
-
+{/* LEAVE MANAGEMENT */}
+<LeavePanel role={user.role} />
     </main>
   );
 }
